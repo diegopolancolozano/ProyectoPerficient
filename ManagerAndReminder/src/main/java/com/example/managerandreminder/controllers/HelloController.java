@@ -1,10 +1,13 @@
 package com.example.managerandreminder.controllers;
 
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 
 public class HelloController{
+
+    private UserDataGestor dataGestor;
+
     @FXML
     private Label errorText;
 
@@ -12,8 +15,19 @@ public class HelloController{
     private Label loginText;
 
     @FXML
-    protected void onHelloButtonClick() {
-        errorText.setText("Welcome to JavaFX Application!");
+    private TextField inputUsername;
+
+    @FXML
+    private TextField inputPassword;
+
+    @FXML
+    protected void onLogin() {
+        errorText.setText("Error");
+    }
+
+    @FXML
+    protected void onSignin() {
+        errorText.setText("Error");
     }
 
 
