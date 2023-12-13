@@ -25,12 +25,18 @@ public class UserDataGestor {
         return instance;
     }
 
-    private void readData(){
+    public ArrayList<User> getUsers(){
+        return users;
+    }
+
+    private ArrayList<User> readData(){
         try (ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream("Information.dat"))) {
             users = (ArrayList<User>) inputStream.readObject();
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
             users = new ArrayList<User>();
+        }finally {
+            return users;
         }
     }
 
@@ -45,10 +51,22 @@ public class UserDataGestor {
             }
         }
 
+        overrideFile();
+    }
+
+    public void setUsers(ArrayList<User> users){
+        this.users = users;
+    }
+
+    public void overrideFile(){
         try (ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream("information.dat"))) {
             outputStream.writeObject(users);
         } catch (IOException e) {
             e.printStackTrace();
+        }
+
+        for(User e : users){
+            System.out.println(e);
         }
     }
 
