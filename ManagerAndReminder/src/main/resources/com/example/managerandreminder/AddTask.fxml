@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox prefHeight="400.0" prefWidth="600.0" spacing="15" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.managerandreminder.controllers.AddTaskController">
+
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+    </padding>
+    
+   <children>
+      <Label text="Tittle" />
+      <TextField fx:id = "title"/>
+      <Label text="Description" />
+      <TextField fx:id = "description"/>
+      <Label text="Color" />
+      <ChoiceBox prefWidth="150.0" fx:id = "color"/>
+       <Label text="Category" />
+       <ChoiceBox prefWidth="150.0" fx:id = "category"/>
+      <Label text="Date" />
+      <DatePicker fx:id = "date"/>
+      <Label fx:id = "errorLabel"/>
+      <Button mnemonicParsing="false" onAction="#addTask" text="Add" />
+   </children>
+
+</VBox>

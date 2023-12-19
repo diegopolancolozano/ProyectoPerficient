@@ -20,6 +20,6 @@
     <TextField fx:id="inputPassword" promptText="Password" />
 
   <Label fx:id="errorText" />
-  <Button onAction="#onLogin" text="Log in" />
+  <Button fx:id="loginButton" onAction="#onLogin" text="Log in" />
     <Button onAction="#onSignin" mnemonicParsing="false" text="Sign in" />
 </VBox>

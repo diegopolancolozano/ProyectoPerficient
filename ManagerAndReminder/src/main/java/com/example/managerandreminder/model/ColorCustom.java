@@ -1,5 +1,5 @@
 package com.example.managerandreminder.model;
 
-public enum Color {
+public enum ColorCustom {
     BLUE, RED, GREEN, YELLOW, PINK, ORANGE, PURPLE, BROWN;
 }

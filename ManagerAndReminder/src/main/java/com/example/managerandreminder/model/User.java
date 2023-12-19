@@ -13,12 +13,12 @@ public class User implements Serializable {
 
     private final String email;
 
-    private ArrayList<Task> tasks;
+    private ArrayList<CalendarActivity> calendarTasks;
 
     public User(String username, String password, String email) {
         this.username = username;
         this.password = password;
-        this.tasks = new ArrayList<Task>();
+        this.calendarTasks = new ArrayList<CalendarActivity>();
         this.email = email;
     }
 
@@ -30,15 +30,12 @@ public class User implements Serializable {
         return this.username.equals(username) && this.password.equals(password);
     }
 
-    public ArrayList<Task> getTasks() {
-        return tasks;
+    public ArrayList<CalendarActivity> getTasks() {
+        return calendarTasks;
     }
 
-    public boolean addTask(String title, String description, Color color, Category category,
-                           Calendar dueDate, Status status, ArrayList<DayOfWeek> daysOfWeek){
-        Task newTask = new Task(title, description, color, category,dueDate, status, daysOfWeek);
-        tasks.add(newTask);
-        return true;
+    public void addActivity(CalendarActivity activity) {
+        calendarTasks.add(activity);
     }
 
     public String getEmail() {

@@ -33,6 +33,21 @@ public class HelloApplication extends Application {
 
     }
 
+    public static void openWindow(String fxml, String tittle, int width, int height){
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource(fxml));
+            Scene scene = new Scene(fxmlLoader.load(), width, height);
+            Stage stage = new Stage();
+            stage.setTitle(tittle);
+            stage.setScene(scene);
+            stage.show();
+        }
+        catch (IOException ex){
+            ex.printStackTrace();
+        }
+
+    }
+
     public static void main(String[] args) {
         launch(args);
     }

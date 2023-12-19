@@ -2,8 +2,10 @@ package com.example.managerandreminder.controllers;
 
 import com.example.managerandreminder.model.User;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
 import java.util.ArrayList;
 
@@ -20,6 +22,9 @@ public class registerController {
 
     @FXML
     private TextField inputPassword;
+
+    @FXML
+    private Button registerButton;
 
     @FXML
     private void onSignin(){
@@ -45,6 +50,17 @@ public class registerController {
             UserDataGestor.getInstance().overrideFile();
 
             errorText.setText("Creado");
+
+            handleCloseButtonAction();
         }
+    }
+
+    @FXML
+    private void handleCloseButtonAction() {
+        // Obtén el Stage actual desde cualquier nodo de la escena
+        Stage stage = (Stage) registerButton.getScene().getWindow();
+
+        // Cierra la ventana
+        stage.close();
     }
 }
