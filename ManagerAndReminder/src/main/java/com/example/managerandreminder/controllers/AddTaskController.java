@@ -1,5 +1,6 @@
 package com.example.managerandreminder.controllers;
 
+import com.example.managerandreminder.HelloApplication;
 import com.example.managerandreminder.model.CalendarActivity;
 import com.example.managerandreminder.model.Category;
 import com.example.managerandreminder.model.ColorCustom;
@@ -10,6 +11,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
 import java.net.URL;
 import java.time.LocalDate;
@@ -39,6 +41,8 @@ public class AddTaskController implements Initializable {
         LocalDate selectedDate = date.getValue();
         if(titleText == null || titleText.equals("")){
             errorLabel.setText("Invalid title");
+        }else if(titleText.length()>10){
+            errorLabel.setText("to long title");
         }else if(descriptionText == null || descriptionText.equals("")){
             errorLabel.setText("Invalid description");
         }else if(colorSelected == null){
@@ -75,6 +79,16 @@ public class AddTaskController implements Initializable {
             UIcontroller.getInstance().addActivityToUser(activity);
 
             errorLabel.setText("");
+
+            //abrir calendar
+
+            HelloApplication.openWindow("MainView.fxml", "Activities", 1000, 650);
+
+            //Cerrar
+
+            Stage stage = (Stage) color.getScene().getWindow();
+
+            stage.close();
         }
     }
 

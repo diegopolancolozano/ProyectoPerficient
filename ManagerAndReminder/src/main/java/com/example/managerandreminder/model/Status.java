@@ -1,5 +1,5 @@
 package com.example.managerandreminder.model;
 
 public enum Status {
-    TO_DO,DONE,CANCELED;
+    TO_DO,DONE,CANCELED, IN_PROGRESS;
 }

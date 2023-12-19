@@ -1,21 +1,23 @@
 package com.example.managerandreminder.controllers;
 
+import com.example.managerandreminder.HelloApplication;
 import com.example.managerandreminder.model.CalendarActivity;
 import com.example.managerandreminder.model.ColorCustom;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 import java.net.URL;
 import java.time.ZonedDateTime;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class CalendarController implements Initializable {
 
@@ -52,7 +54,7 @@ public class CalendarController implements Initializable {
         drawCalendar();
     }
 
-    private void drawCalendar(){
+    /*private void drawCalendar(){
         year.setText(String.valueOf(dateFocus.getYear()));
         month.setText(String.valueOf(dateFocus.getMonth()));
 
@@ -107,7 +109,93 @@ public class CalendarController implements Initializable {
                 calendar.getChildren().add(stackPane);
             }
         }
+    }*/
+
+
+
+    public void drawCalendar() {
+        year.setText(String.valueOf(dateFocus.getYear()));
+        month.setText(String.valueOf(dateFocus.getMonth()));
+
+        double calendarWidth = calendar.getPrefWidth();
+        double calendarHeight = calendar.getPrefHeight();
+        double strokeWidth = 1;
+        double spacingH = calendar.getHgap();
+        double spacingV = calendar.getVgap();
+
+        // Obtiene los valores seleccionados de los filtros
+        String selectedCategory = UIcontroller.getInstance().getFilterCategory();
+        String selectedStatus = UIcontroller.getInstance().getFilterStatus();
+
+        // Filtra las actividades según la categoría y el estado seleccionados
+        Map<Integer, List<CalendarActivity>> calendarActivityMap = filterActivitiesByCategoryAndStatus(selectedCategory, selectedStatus);
+
+        int monthMaxDate = dateFocus.getMonth().maxLength();
+        // Check for leap year
+        if (dateFocus.getYear() % 4 != 0 && monthMaxDate == 29) {
+            monthMaxDate = 28;
+        }
+        int dateOffset = ZonedDateTime.of(dateFocus.getYear(), dateFocus.getMonthValue(), 1, 0, 0, 0, 0, dateFocus.getZone()).getDayOfWeek().getValue();
+
+        for (int i = 0; i < 6; i++) {
+            for (int j = 0; j < 7; j++) {
+                StackPane stackPane = new StackPane();
+
+                Rectangle rectangle = new Rectangle();
+                rectangle.setFill(Color.TRANSPARENT);
+                rectangle.setStroke(Color.BLACK);
+                rectangle.setStrokeWidth(strokeWidth);
+                double rectangleWidth = (calendarWidth / 7) - strokeWidth - spacingH;
+                rectangle.setWidth(rectangleWidth);
+                double rectangleHeight = (calendarHeight / 6) - strokeWidth - spacingV;
+                rectangle.setHeight(rectangleHeight);
+                stackPane.getChildren().add(rectangle);
+
+                int calculatedDate = (j + 1) + (7 * i);
+                if (calculatedDate > dateOffset) {
+                    int currentDate = calculatedDate - dateOffset;
+                    if (currentDate <= monthMaxDate) {
+                        Text date = new Text(String.valueOf(currentDate));
+                        double textTranslationY = - (rectangleHeight / 2) * 0.75;
+                        date.setTranslateY(textTranslationY);
+                        stackPane.getChildren().add(date);
+
+                        List<CalendarActivity> calendarActivities = calendarActivityMap.get(currentDate);
+                        if (calendarActivities != null) {
+                            createCalendarActivity(calendarActivities, rectangleHeight, rectangleWidth, stackPane);
+                        }
+                    }
+                    if (today.getYear() == dateFocus.getYear() && today.getMonth() == dateFocus.getMonth() && today.getDayOfMonth() == currentDate) {
+                        rectangle.setStroke(Color.BLUE);
+                    }
+                }
+                calendar.getChildren().add(stackPane);
+            }
+        }
     }
+
+    // Método para filtrar las actividades por categoría y estado
+    private Map<Integer, List<CalendarActivity>> filterActivitiesByCategoryAndStatus(String selectedCategory, String selectedStatus) {
+        // Obtiene todas las actividades
+        List<CalendarActivity> allActivities = UIcontroller.getInstance().getActivities();
+
+        // Filtra por categoría y estado
+        if (!"All".equals(selectedCategory)) {
+            allActivities = allActivities.stream()
+                    .filter(activity -> selectedCategory.equals(activity.getCategory().toString()))
+                    .collect(Collectors.toList());
+        }
+
+        if (!"All".equals(selectedStatus)) {
+            allActivities = allActivities.stream()
+                    .filter(activity -> selectedStatus.equals(activity.getStatus().toString()))
+                    .collect(Collectors.toList());
+        }
+
+        // Agrupa las actividades por día
+        return createCalendarMap(allActivities);
+    }
+
 
     private void createCalendarActivity(List<CalendarActivity> calendarActivities, double rectangleHeight, double rectangleWidth, StackPane stackPane) {
         VBox calendarActivityBox = new VBox();
@@ -126,7 +214,7 @@ public class CalendarController implements Initializable {
             CalendarActivity activity = calendarActivities.get(k);
             ColorCustom textColor = activity.getColor();
 
-            Text text = new Text(activity.getTittle() + "\n" + activity.getCategory());
+            Text text = new Text(activity.getTitle() + "\n" + activity.getCategory());
 
             // Cambiar el color del texto
             String colorStyle = getColorStyle(textColor);
@@ -135,8 +223,13 @@ public class CalendarController implements Initializable {
             calendarActivityBox.getChildren().add(text);
             text.setOnMouseClicked(mouseEvent -> {
                 // On Text clicked
-                // TODO modify and remove
-                System.out.println(text.getText());
+                UIcontroller.getInstance().setActualActivity(activity);
+                //modifyTaskController window = new modifyTaskController();
+                //window.openWindow();
+                HelloApplication.openWindow("ModifyTask.fxml", "modify", 640, 510);
+                Stage stage = (Stage) text.getScene().getWindow();
+
+                stage.close();
             });
         }
 

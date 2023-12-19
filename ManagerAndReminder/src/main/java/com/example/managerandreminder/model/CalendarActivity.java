@@ -5,7 +5,7 @@ import java.time.ZonedDateTime;
 
 public class CalendarActivity implements Serializable {
     private ZonedDateTime date;
-    private String tittle;
+    private String title;
 
     private String description;
 
@@ -15,18 +15,18 @@ public class CalendarActivity implements Serializable {
 
     private Status status;
 
-    public CalendarActivity(ZonedDateTime date, String tittle, String description, ColorCustom colorCustom, Category category, Status status) {
+    public CalendarActivity(ZonedDateTime date, String title, String description, ColorCustom colorCustom, Category category, Status status) {
         this.date = date;
-        this.tittle = tittle;
+        this.title = title;
         this.description = description;
         this.colorCustom = colorCustom;
         this.category = category;
         this.status = status;
     }
 
-    public CalendarActivity(ZonedDateTime date, String Tittle) {
+    public CalendarActivity(ZonedDateTime date, String title) {
         this.date = date;
-        this.tittle = Tittle;
+        this.title = title;
     }
 
     public ZonedDateTime getDate() {
@@ -37,12 +37,12 @@ public class CalendarActivity implements Serializable {
         this.date = date;
     }
 
-    public String getTittle() {
-        return tittle;
+    public String getTitle() {
+        return title;
     }
 
-    public void setTittle(String tittle) {
-        this.tittle = tittle;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
 
@@ -50,7 +50,7 @@ public class CalendarActivity implements Serializable {
     public String toString() {
         return "CalenderActivity{" +
                 "date=" + date +
-                ", clientName='" + tittle + '\'' +
+                ", clientName='" + title + '\'' +
                 '}';
     }
 
@@ -69,5 +69,24 @@ public class CalendarActivity implements Serializable {
             case Category.MEDICAL -> out = "Medical";
         }
         return out;
+    }
+
+    public String getStatus() {
+        String out = "";
+        switch (status) {
+            case Status.DONE -> out = "Done";
+            case Status.CANCELED -> out = "Cancelled";
+            case Status.TO_DO -> out = "To do";
+            case Status.IN_PROGRESS -> out = "In progress";
+        }
+        return out;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

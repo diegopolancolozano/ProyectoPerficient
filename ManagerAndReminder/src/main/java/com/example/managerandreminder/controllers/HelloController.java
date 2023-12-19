@@ -37,8 +37,7 @@ public class HelloController implements Initializable{
         if(!uiController.isValidLogin(inputUsername.getText(), inputPassword.getText())){
             errorText.setText("Error, No existe una cuenta con esas credenciales");
         }else{
-            //HelloApplication.openWindow("Calendar.fxml", "Activities", 740, 640);
-            HelloApplication.openWindow("MainView.fxml", "Activities", 880, 640);
+            HelloApplication.openWindow("MainView.fxml", "Activities", 1000, 650);
             handleCloseButtonAction();
         }
     }

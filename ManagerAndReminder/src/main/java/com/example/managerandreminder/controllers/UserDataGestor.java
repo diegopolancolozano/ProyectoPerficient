@@ -65,9 +65,6 @@ public class UserDataGestor {
             e.printStackTrace();
         }
 
-        for(User e : users){
-            System.out.println(e);
-        }
     }
 
 
